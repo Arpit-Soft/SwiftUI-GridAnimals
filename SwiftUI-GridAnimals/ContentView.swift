@@ -8,9 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
+    let animals = ["🐈","🐆","🦌","🦒","🦏","🐄","🐀","🦩","🦜"]
+    @State private var sliderValue: CGFloat = 1
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView(content: {
+            VStack(content: {
+                Slider(value: $sliderValue, in: 1...6, step: 1)
+                Text(String(format: "%.0f", sliderValue))
+                    .font(.system(size: 20))
+                    .fontWeight(.bold)
+                    .padding(10)
+                    .background(Color.purple)
+                    .foregroundColor(.white)
+                    .clipShape(Circle())
+                List(animals.chunks(size: Int(sliderValue)), id: \.self) { chunk in
+                    ForEach(chunk, id: \.self) { animal in
+                        Text(animal)
+                            .font(.system(size: CGFloat(300/sliderValue)))
+                    }
+                }
+            })
+            .navigationTitle("Animals")
+        })
+        
     }
 }
 
